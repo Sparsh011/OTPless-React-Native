@@ -1,6 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+<!-- Code added for OTP-less integration -->
+
     <uses-permission android:name="android.permission.INTERNET" />
+    <queries>
+        <package android:name="com.whatsapp"/>
+        <package android:name="com.whatsapp.w4b"/>
+    </queries>
 
     <application
       android:name=".MainApplication"
@@ -9,35 +15,26 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      <activity
-        android:name=".MainActivity"
+            
+        <activity
+          android:name="com.rnproject.MainActivity"
         android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-        android:launchMode="singleTask"
-        android:windowSoftInputMode="adjustResize"
-        android:exported="true">
+          android:launchMode="singleTop"
+          android:exported="true">
+          // add this to your activity code 
+         <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+        <!-- Code added for OTP-less integration -->
         <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:host="otpless" android:scheme="trayaotpless"  />
         </intent-filter>
       </activity>
-
-
-      <!-- Code for OTPless implementation :  -->
-
-      <!-- <activity
-      android:name="com.yourcompanyname.main.MainActivity"
-      android:launchMode="singleTop"
-      android:exported="true">
-      <intent-filter>
-      <action android:name="android.intent.action.VIEW" />
-      <category android:name="android.intent.category.DEFAULT" />
-      <category android:name="android.intent.category.BROWSABLE" />
-      <data
-      android:host="otpless"
-      android:scheme="YOUR_COMPANYNAMEotpless" />
-      </intent-filter>
-     </activity> -->
 
     </application>
 </manifest>

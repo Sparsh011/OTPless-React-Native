@@ -1,15 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
+import React, { useCallback, useEffect } from 'react';
+import { Alert, Linking } from 'react-native';
+import type { PropsWithChildren } from 'react';
 import {
+  Button,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   Text,
@@ -17,19 +11,13 @@ import {
   View,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
-function Section({children, title}: SectionProps): JSX.Element {
+function Section({ children, title }: SectionProps): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -55,6 +43,29 @@ function Section({children, title}: SectionProps): JSX.Element {
   );
 }
 
+
+// Code added for OTP-less integration - 
+
+const WhatsAppLoginButton = () => {
+  const handlePress = useCallback(async () => {
+    const url = 'https://traya.authlink.me?redirectUri=trayaotpless://otpless';
+    const supported = await Linking.canOpenURL(url); // Even though Linking.canOpenURL returned false, the app is working
+
+    console.log("supported", supported);
+
+    Linking.openURL(url)
+  }, []);
+
+  return (
+    <Button
+      color="#25D366"
+      title="Continue with WhatsApp"
+      onPress={handlePress}
+    />
+  );
+};
+
+
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -62,36 +73,40 @@ function App(): JSX.Element {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
 
+
+  // Code added for OTP-less integration - 
+
+  const handleDeepLink = async url => {
+    console.log("url", url); // Extract waId from this url.
+    const waId = new URLSearchParams(url.query).get('waId');
+    // Send the waId to your server and pass the waId in getUserDetail API to retrieve the user detail.
+    // Handle the signup/signin process here
+
+  };
+
+  useEffect(() => {
+    console.log("Here");
+
+    const linkingEvent = Linking.addEventListener('url', handleDeepLink);
+    Linking.getInitialURL().then(url => {
+      if (url) {
+        handleDeepLink({ url });
+      }
+    });
+    return () => {
+      linkingEvent.remove();
+    };
+  }, [handleDeepLink]);
+
+
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One hai ji, working fine">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
+      <WhatsAppLoginButton />
     </SafeAreaView>
   );
 }
@@ -109,9 +124,6 @@ const styles = StyleSheet.create({
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
   },
 });
 

@@ -45,14 +45,14 @@
 	</array>
 
 
-<!-- Code for OTPless implementation :  -->
+<!-- Code for OTP-less implementation :  -->
 
-	<!-- <key>CFBundleURLTypes</key>
-		<array>
+	<key>CFBundleURLTypes</key>
+	<array>
 		<dict>
 		<key>CFBundleURLSchemes</key>
 		<array>
-		<string>YourCompanyNameotpless</string>
+		<string>trayaotpless</string>
 		</array>
 		<key>CFBundleTypeRole</key>
 		React Native 2
@@ -60,7 +60,8 @@
 		<key>CFBundleURLName</key>
 		<string>otpless</string>
 		</dict>
-		</array> -->
+	</array>
+
 
 
 	<key>UISupportedInterfaceOrientations</key>

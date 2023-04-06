@@ -38,13 +38,13 @@
 
 
 // Code added for OTPless implementation : 
-// Add this inside `@implementation AppDelegate` above `@end`:
-// - (BOOL)application:(UIApplication *)application
-// openURL:(NSURL *)url
-// options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
-// {
-//   return [RCTLinkingManager application:application openURL:url options:options];
-// }
+Add this inside `@implementation AppDelegate` above `@end`:
+- (BOOL)application:(UIApplication *)application
+openURL:(NSURL *)url
+options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+  return [RCTLinkingManager application:application openURL:url options:options];
+}
 
 /* Now what remains is adding the logic for onClick of button*/
 
