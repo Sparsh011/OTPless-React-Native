@@ -52,7 +52,7 @@
 		<dict>
 		<key>CFBundleURLSchemes</key>
 		<array>
-		<string>trayaotpless</string>
+		<string>xyzotpless</string>
 		</array>
 		<key>CFBundleTypeRole</key>
 		React Native 2

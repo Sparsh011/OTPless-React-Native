@@ -48,7 +48,7 @@ function Section({ children, title }: SectionProps): JSX.Element {
 
 const WhatsAppLoginButton = () => {
   const handlePress = useCallback(async () => {
-    const url = 'https://traya.authlink.me?redirectUri=trayaotpless://otpless';
+    const url = 'https://xyz.authlink.me?redirectUri=xyzotpless://otpless';
     const supported = await Linking.canOpenURL(url); // Even though Linking.canOpenURL returned false, the app is working
 
     console.log("supported", supported);
@@ -76,11 +76,43 @@ function App(): JSX.Element {
 
   // Code added for OTP-less integration - 
 
-  const handleDeepLink = async url => {
-    console.log("url", url); // Extract waId from this url.
-    const waId = new URLSearchParams(url.query).get('waId');
+  const handleDeepLink = async url  => {
+    // console.log (url); // Extract waId from this url.
+    // const newUrl = JSON.stringify(url)
+    // const url2 = new URL(newUrl);
+    // const waId = url2.searchParams.get('waId');
+    // console.log(waId);
+
+    // const url = {"url": "xyzotpless://otpless?waId=lji9u2yc"};d
+    console.log("URL type - ", typeof url);
+    
+
+    // const searchParams = new URLSearchParams(new URL(url.url).search);
+    // const waId = searchParams.get('waId');
+    // console.log(searchParams);
+    // const waId = urll.query.split('=')[1];
+    // console.log(waId);
+
+    
+    // console.log(waId);
+    
+    
     // Send the waId to your server and pass the waId in getUserDetail API to retrieve the user detail.
     // Handle the signup/signin process here
+
+    // const waId = url.url.substr(url.url.length - 8);
+    const waId = url.url.split('=')[1] // doesn't work
+    console.log("waid", waId);
+    console.log(typeof url.url);
+    
+    
+
+
+
+    // const url = "xyzotpless://otpless?waId=lji9u2yc"
+    // const searchParams = new URLSearchParams(new URL(url).search);
+    // const waId = searchParams.get('waId');
+
 
   };
 
